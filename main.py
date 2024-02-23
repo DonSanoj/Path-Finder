@@ -70,6 +70,32 @@ class Spot:
     def draw(self, win):
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
+def draw_grid(win, rows, width):
+	gap = width // rows
+	for i in range(rows):
+		pygame.draw.line(win, GREY, (0, i * gap), (width, i * gap))
+		for j in range(rows):
+			pygame.draw.line(win, GREY, (j * gap, 0), (j * gap, width))
+
+def draw(win, grid, rows, width):
+	win.fill(WHITE)
+
+	for row in grid:
+		for spot in row:
+			spot.draw(win)
+
+	draw_grid(win, rows, width)
+	pygame.display.update()
+
+def get_clicked_pos(pos, rows, width):
+	gap = width // rows
+	y, x = pos
+
+	row = y // gap
+	col = x // gap
+
+	return row, col
+
 def main(win, width):
 	ROWS = 50
 	grid = make_grid(ROWS, width)
